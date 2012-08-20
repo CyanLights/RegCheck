@@ -1,3 +1,14 @@
 name: RegCheck
 main: de.zwinkie.regcheck.Main
 version: 1.0
+authors: [CyanLights, Aly9]
+commands:
+   check:
+      description: This is an admin command.
+      usage: /check [player]
+      permission: regcheck.lookup
+      permission-message: You don't have permission to use this command.
+permissions:
+    regcheck.lookup
+        description: Allows you to check if a player has registered on zwinkie.de
+        default: op

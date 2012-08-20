@@ -2,7 +2,9 @@ package de.zwinkie.regcheck;
 
 import java.util.logging.Logger;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 /**
  * 
@@ -30,24 +32,29 @@ public class Main extends JavaPlugin{
 	// if not return false. If true, check permission, check args, then follow through with
 	// the meat of the command.
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+    	Player player = null;
+    	if(sender instanceof Player)
+    		player = (Player) sender;
+
     	if(cmd.getName().equalsIgnoreCase("check")){ // If the player types /check, do this:
     		//Check if player has permission
     	    if(player.hasPermission("regcheck.lookup")) {
     	    	//If yes, follow through. Check arg amount:
         		if (args.length > 1) {
-     	           sender.sendMessage("Incorrect usage.");
+     	           sender.sendMessage("Too many arguments!");
      	           return false;
-     	        } 
-     	        if (args.length < 1) {
+     	        }else if (args.length < 1) {
      	           sender.sendMessage("You must specify a username to lookup.");
      	           return false;
+     	        }else{
+     	        	sender.sendMessage(label); //Just for testing
+     	        	return true;
      	        }
-    	     }else{
-     	        sender.sendMessage("You are not allowed to use that command.")
-     	        return false;
-    	     }
-    		return true;
-    	} //If this has happened the function will break and return true. if this hasn't happened the a value of false will be returned.
+    	    }
+    	    //They don't have permission...
+    	    sender.sendMessage("You are not allowed to use that command.");
+    	    return false;
+    	} //If this has happened the function will break and return true.
     	return false; 
     }
 
