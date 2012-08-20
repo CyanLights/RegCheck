@@ -46,7 +46,10 @@ public class Main extends JavaPlugin{
      	           sender.sendMessage("You must specify a username to lookup.");
      	           return false;
      	        }else{
-     	        	sender.sendMessage(label); //Just for testing
+     	        	if(WebReader.isRegistered(args[0]))
+     	        		sender.sendMessage("§2"+args[0]+" has registered.");
+     	        	else
+     	        		sender.sendMessage("§4"+args[0]+" has not registered.");
      	        	return true;
      	        }
     	    }
