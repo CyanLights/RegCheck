@@ -1,7 +1,5 @@
 package de.zwinkie.regcheck;
 
-import java.util.logging.Logger;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,11 +24,12 @@ public class Main extends JavaPlugin{
 	}
 	
 	
-	// I definitely didn't get this quite right, the if else nesting is
-	// getting the better of me.
-	// I was basically trying to do this: Declare onCommand, if command = /check then return true,
-	// if not return false. If true, check permission, check args, then follow through with
-	// the meat of the command.
+	/** I definitely didn't get this quite right, the if else nesting is
+	* getting the better of me.
+	* I was basically trying to do this: Declare onCommand, if command = /check then return true,
+	* if not return false. If true, check permission, check args, then follow through with
+	* the meat of the command.
+	*/
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
     	Player player = null;
     	if(sender instanceof Player)
