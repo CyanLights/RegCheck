@@ -35,7 +35,7 @@ public class Main extends JavaPlugin{
     	if(sender instanceof Player)
     		player = (Player) sender;
 
-    	if(cmd.getName().equalsIgnoreCase("check")){ // If the player types /check, do this:
+    	if(cmd.getName().equalsIgnoreCase("check") && player != null){ // If the player types /check, do this:
     		//Check if player has permission
     	    if(player.hasPermission("regcheck.lookup")) {
     	    	//If yes, follow through. Check arg amount:
@@ -47,9 +47,9 @@ public class Main extends JavaPlugin{
      	           return false;
      	        }else{
      	        	if(WebReader.isRegistered(args[0]))
-     	        		sender.sendMessage("§2"+args[0]+" has registered.");
+     	        		sender.sendMessage("§a"+args[0]+" has registered.");
      	        	else
-     	        		sender.sendMessage("§4"+args[0]+" has not registered.");
+     	        		sender.sendMessage("§c"+args[0]+" has not registered.");
      	        	return true;
      	        }
     	    }

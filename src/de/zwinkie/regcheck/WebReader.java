@@ -7,15 +7,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class WebReader {
-	public static void main (String args[]){
-		String user = "joejoe";
-		System.out.println(isRegistered("http://zwinkie.de/search.php?stext="+user+"&search=Search&method=OR&forum_id=0&stype=members&order=0"));
-	}
-	
-	public static boolean isRegistered(String in_URL)
+
+	public static boolean isRegistered(String in_player)
     {	
         try {
-        	URL sourceURL = new URL(in_URL);
+        	URL sourceURL = new URL("http://zwinkie.de/search.php?stext="+in_player+"&search=Search&method=OR&forum_id=0&stype=members&order=0");
             InputStream ins = sourceURL.openStream();
 					
 	        if (ins == null)
