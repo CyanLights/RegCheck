@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 /**
  * 
@@ -45,7 +48,10 @@ public class Main extends JavaPlugin{
     	Player player = null;
     	if(sender instanceof Player)
     		player = (Player) sender;
-
+    	else if(sender instanceof ConsoleCommandSender){
+    		sender.sendMessage("Must be a player!");
+    		return false;    		
+    	}
     	if(cmd.getName().equalsIgnoreCase("check") && player != null){ // If the player types /check, do this:
     		//Check if player has permission
     	    if(player.hasPermission("regcheck.lookup")) {
@@ -57,10 +63,12 @@ public class Main extends JavaPlugin{
      	           sender.sendMessage("You must specify a username to lookup.");
      	           return false;
      	        }else{
-     	        	if(isRegistered(args[0]))
-     	        		sender.sendMessage("§a"+args[0]+" has registered.");
+     	        	String playerName = getPlayerName(args[0]);
+     	        	
+     	        	if(isRegistered(playerName))
+     	        		sender.sendMessage("§a"+playerName+" has registered.");
      	        	else
-     	        		sender.sendMessage("§c"+args[0]+" has not registered.");
+     	        		sender.sendMessage("§c"+playerName+" has not registered.");
      	        	return true;
      	        }
     	    }
@@ -71,9 +79,17 @@ public class Main extends JavaPlugin{
     	return false; 
     }
     
-    private static BufferedReader in;
+    private String getPlayerName(String name){
+    	Server server = this.getServer();
+    	List<Player> onlinePlayers = server.matchPlayer(name);
+    	if(onlinePlayers.isEmpty())
+    		return server.getOfflinePlayer(name).getName();
+    	return server.matchPlayer(name).get(0).getName();    	
+    }
     
-    public static boolean isRegistered(String in_player)
+    private BufferedReader in;
+    
+    public  boolean isRegistered(String in_player)
     {	
 		try {		
 			URL url = new URL("http://zwinkie.de/search.php?stext="+in_player+"&search=Search&method=OR&forum_id=0&stype=members&order=0");
