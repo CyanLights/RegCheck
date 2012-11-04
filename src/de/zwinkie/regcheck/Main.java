@@ -56,14 +56,19 @@ public class Main extends JavaPlugin{
     		//Check if player has permission
     	    if(player.hasPermission("regcheck.lookup")) {
     	    	//If yes, follow through. Check arg amount:
-        		if (args.length > 1) {
+        		if (args.length > 2) {
      	           sender.sendMessage("Too many arguments!");
      	           return false;
      	        }else if (args.length < 1) {
      	           sender.sendMessage("You must specify a username to lookup.");
      	           return false;
-     	        }else{
-     	        	String playerName = getPlayerName(args[0]);
+     	        }else if(args.length == 2 && args[0].equalsIgnoreCase("-f")){     	        	
+     	        	if(isRegistered(args[1]))
+     	        		sender.sendMessage("§a"+args[1]+" has registered.");
+     	        	else
+     	        		sender.sendMessage("§c"+args[1]+" has not registered.");     	        	
+     	        }else{     	        
+     	        	String playerName = getPlayerName(args[0],sender);
      	        	
      	        	if(isRegistered(playerName))
      	        		sender.sendMessage("§a"+playerName+" has registered.");
@@ -79,11 +84,14 @@ public class Main extends JavaPlugin{
     	return false; 
     }
     
-    private String getPlayerName(String name){
+    private String getPlayerName(String name, CommandSender sender){
     	Server server = this.getServer();
     	List<Player> onlinePlayers = server.matchPlayer(name);
-    	if(onlinePlayers.isEmpty())
-    		return server.getOfflinePlayer(name).getName();
+    	if(onlinePlayers.isEmpty()){
+    		sender.sendMessage("§7Could not match §o"+name+"§7 with an online player!");
+    		sender.sendMessage("§7Checking exact name given...");
+    		return name;    		
+    	}
     	return server.matchPlayer(name).get(0).getName();    	
     }
     
@@ -106,7 +114,9 @@ public class Main extends JavaPlugin{
 	        
 		} catch (IOException e) {
 			return false;
-		}	
+		} catch (NullPointerException e){
+			return false;
+		}
     }
 
 
