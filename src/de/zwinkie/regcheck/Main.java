@@ -99,18 +99,18 @@ public class Main extends JavaPlugin{
     
     public  boolean isRegistered(String in_player)
     {	
-		try {		
+    	try {		
 			URL url = new URL("http://zwinkie.de/search.php?stext="+in_player+"&search=Search&method=OR&forum_id=0&stype=members&order=0");
 			URLConnection connection = url.openConnection();
 			connection.connect();
 			
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			in.skip(15050);
+			in.skip(16050);
+
 			char[] copyBuffer = new char[1024];
 	        StringBuffer sb = new StringBuffer();
-	        sb.append(copyBuffer, 0, in.read(copyBuffer, 0, 1024));  
-	        
-	        return sb.toString().contains("profile-link");
+	        sb.append(copyBuffer, 0, in.read(copyBuffer, 0,1024));  
+	        return sb.toString().contains("1 Member");
 	        
 		} catch (IOException e) {
 			return false;
