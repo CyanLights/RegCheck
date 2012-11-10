@@ -8,6 +8,11 @@ commands:
       usage: /check [-f] <player>
       permission: regcheck.lookup
       permission-message: You don't have permission to use this command.
+   dropan:
+      description: Drops an anvil on a player
+      usage: /dropan <player>
+      permission: regcheck.lookup
+      permission-message: You don't have permission to use this command.
 permissions:
     regcheck.lookup:
         description: Allows you to check if a player has registered on zwinkie.de

@@ -52,6 +52,32 @@ public class Main extends JavaPlugin{
     		sender.sendMessage("Must be a player!");
     		return false;    		
     	}
+    	
+    	if(cmd.getName().equalsIgnoreCase("dropan") && player !=null){
+    		
+    		//Use old permission for now
+    		if(player.hasPermission("regcheck.lookup")){
+    			if(args.length < 1 || args.length > 1){
+    				sender.sendMessage("Invalid Usage");
+    				return false;
+    			}else{    		
+    				Server server = this.getServer();
+    		    	List<Player> onlinePlayers = server.matchPlayer(args[0]);
+    		    	if(!onlinePlayers.isEmpty()){
+    		    		
+    		    		AnvilDropper dropper = new AnvilDropper(onlinePlayers.get(0),sender);
+    		    		if(dropper.isValid())
+    		    			dropper.placeAnvil();
+    		    		return true;
+    		    		
+    		    	}else{
+    		    		sender.sendMessage("Player not Found");
+    		    		return false;
+    		    	}
+    			}
+    		}
+    	}
+    	
     	if(cmd.getName().equalsIgnoreCase("check") && player != null){ // If the player types /check, do this:
     		//Check if player has permission
     	    if(player.hasPermission("regcheck.lookup")) {
@@ -59,14 +85,15 @@ public class Main extends JavaPlugin{
         		if (args.length > 2) {
      	           sender.sendMessage("Too many arguments!");
      	           return false;
-     	        }else if (args.length < 1) {
+     	        }else if (args.length < 1 ||(args.length==1 && args[0].equalsIgnoreCase("-f"))) {
      	           sender.sendMessage("You must specify a username to lookup.");
      	           return false;
      	        }else if(args.length == 2 && args[0].equalsIgnoreCase("-f")){     	        	
      	        	if(isRegistered(args[1]))
      	        		sender.sendMessage("§a"+args[1]+" has registered.");
      	        	else
-     	        		sender.sendMessage("§c"+args[1]+" has not registered.");     	        	
+     	        		sender.sendMessage("§c"+args[1]+" has not registered."); 
+     	        	return true;
      	        }else{     	        
      	        	String playerName = getPlayerName(args[0],sender);
      	        	
@@ -92,7 +119,7 @@ public class Main extends JavaPlugin{
     		sender.sendMessage("§7Checking exact name given...");
     		return name;    		
     	}
-    	return server.matchPlayer(name).get(0).getName();    	
+    	return onlinePlayers.get(0).getName();    	
     }
     
     private BufferedReader in;
